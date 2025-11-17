@@ -1,1 +1,43 @@
-<h1>Hello</h1>
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <title>YouTubeで開く</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- SNSのインアプリブラウザ対策で、少しでもマシにするおまじない的meta -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+</head>
+<body>
+  <h1>YouTubeで開く</h1>
+  <p>※アプリが開かない場合は、下のボタンを押してください。</p>
+
+  <!-- ここを自分のチャンネル or 動画に書き換える -->
+  <a id="openApp" href="youtube://www.youtube.com/channel/あなたのチャンネルID">
+    YouTubeアプリで開く
+  </a>
+
+  <p style="margin-top:16px;">
+    またはブラウザで開く：<br>
+    <a href="https://www.youtube.com/channel/あなたのチャンネルID">
+      https://www.youtube.com/channel/あなたのチャンネルID
+    </a>
+  </p>
+
+  <script>
+    // ディープリンク（アプリ用）と通常Webリンクを定義
+    var appUrl = "youtube://www.youtube.com/channel/あなたのチャンネルID";
+    var webUrl = "https://www.youtube.com/channel/あなたのチャンネルID";
+
+    // ページを開いたら、まずアプリURLに飛んでみる（許可されればアプリ起動）
+    window.location.href = appUrl;
+
+    // 一定時間経ってもアプリに切り替わらなければ、ブラウザ用URLに戻す
+    setTimeout(function () {
+      // Instagramのインアプリブラウザだと無視されることも多いが、
+      // 通常ブラウザの場合はfallbackとして効く。
+      window.location.href = webUrl;
+    }, 1500);
+  </script>
+</body>
+</html>
