@@ -12,22 +12,21 @@
   
     const isIG = ua.includes("instagram");
     const isFB = ua.includes("fbav") || ua.includes("fban") || ua.includes("messenger");
-  
     const inApp = isIG || isFB;
   
     if (!inApp) return;
   
-    // iOS → Safari or Chrome
+    // iOS の場合
     if (/iphone|ipad|ipod/.test(ua)) {
-      // Chromeを試す
-      window.location.href = "googlechrome://" + DEST.replace("https://", "");
+      // タブを新規で開く（Safariに飛ぶ可能性が高い）
+      window.open(DEST, "_blank");
       setTimeout(() => {
-        // Safari fallback
         window.location.href = DEST;
-      }, 400);
+      }, 600);
+      return;
     }
   
-    // Android → Chrome
+    // Android の場合
     if (/android/.test(ua)) {
       window.location.href =
         "intent://" +
@@ -36,7 +35,7 @@
   
       setTimeout(() => {
         window.location.href = DEST;
-      }, 400);
+      }, 600);
     }
   })();
   </script>
