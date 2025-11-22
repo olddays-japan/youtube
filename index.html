@@ -5,33 +5,6 @@
   <title>OLD DAYS JAPAN</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<script>
-(function() {
-  const DEST = "https://www.youtube.com/@olddays_japan";
-
-  const ua = navigator.userAgent.toLowerCase();
-  const isIG = ua.includes("instagram");
-  const isFB = ua.includes("fbav") || ua.includes("fban") || ua.includes("messenger");
-  const inApp = isIG || isFB;
-
-  if (!inApp) return;
-
-  if (/iphone|ipad|ipod/.test(ua)) {
-    window.location.href = "googlechrome://" + DEST.replace("https://", "");
-    setTimeout(() => {
-      window.location.href = DEST;
-    }, 500);
-  }
-
-  if (/android/.test(ua)) {
-    window.location.href =
-      "intent://" +
-      DEST.replace("https://", "") +
-      "#Intent;scheme=https;package=com.android.chrome;end";
-  }
-})();
-</script>
-
   <style>
     body {
       margin: 0;
@@ -80,12 +53,48 @@
       margin-top: 12px;
       font-size: 12px;
       color: #7a6b4b;
+      line-height: 1.6;
+    }
+
+    /* コピー欄 */
+    .copy-box {
+      margin-top: 28px;
+      background: #fff5de;
+      padding: 12px 16px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #e0d2b5;
+    }
+
+    .copy-text {
+      font-size: 14px;
+      color: #6a5940;
+      user-select: all;
+    }
+
+    .copy-btn {
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #e26b2d;
+      color: #fff5de;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 2px 0 #b24d18;
+      cursor: pointer;
+    }
+
+    .copy-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 1px 0 #b24d18;
     }
   </style>
 </head>
+
 <body>
   <div class="wrapper">
-    <!-- 画像ファイル名は自分がアップした名前に合わせて変更 -->
     <img src="old-days-japan-logo.jpeg" alt="OLD DAYS JAPAN ロゴ" class="logo">
 
     <a
@@ -98,8 +107,23 @@
     </a>
 
     <p class="sub">
-      アプリが入っていれば、「YouTubeアプリで開く」を選んでね。
+      アプリが開かない場合は、YouTubeで「olddays_japan」と検索してみてね。
     </p>
+
+    <!-- ▼ コピー欄 -->
+    <div class="copy-box">
+      <span class="copy-text" id="copyTarget">olddays_japan</span>
+      <button class="copy-btn" onclick="copyText()">コピー</button>
+    </div>
   </div>
+
+  <script>
+    function copyText() {
+      const text = document.getElementById('copyTarget').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("コピーしたよ！");
+      });
+    }
+  </script>
 </body>
 </html>
