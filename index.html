@@ -134,14 +134,7 @@
   <div class="wrapper">
     <img src="old-days-japan-logo.jpeg" alt="OLD DAYS JAPAN ロゴ" class="logo">
 
-    <a
-      class="btn"
-      href="https://www.youtube.com/@olddays_japan"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      YouTubeでOLD DAYS JAPANをひらく
-    </a>
+    <a class="btn" href="#" onclick="openYouTubeApp()">YouTubeでOLD DAYS JAPANをひらく</a>
 
     <p class="sub">
       アプリが開かない場合は、YouTubeで「olddays_japan」と検索してみてね。
@@ -162,15 +155,54 @@
   </div>
 
   <script>
+    /* コピー */
     function copyText() {
       const text = document.getElementById('copyTarget').innerText;
       navigator.clipboard.writeText(text).then(() => {
         document.getElementById('modalOverlay').style.display = "flex";
       });
     }
-
     function closeModal() {
       document.getElementById('modalOverlay').style.display = "none";
+    }
+
+    /* ▼ YouTube アプリを開く（iOS / Android / インアプリブラウザ脱出） */
+    function openYouTubeApp() {
+      const dest = "www.youtube.com/@olddays_japan";
+      const ua = navigator.userAgent.toLowerCase();
+
+      const isIG = ua.includes("instagram");
+      const isFB = ua.includes("fbav") || ua.includes("fban");
+      const isLN = ua.includes("line");
+      const inApp = isIG || isFB || isLN;
+
+      if (inApp) {
+        // 外部ブラウザへ避難
+        const url = "https://olddays-japan.github.io/youtube/";
+        window.location.href = url;
+        return;
+      }
+
+      // iOS
+      if (/iphone|ipad|ipod/.test(ua)) {
+        window.location.href = "youtube://" + dest;
+        setTimeout(() => {
+          window.location.href = "https://" + dest;
+        }, 600);
+        return;
+      }
+
+      // Android
+      if (/android/.test(ua)) {
+        window.location.href =
+          "intent://" +
+          dest +
+          "#Intent;scheme=https;package=com.google.android.youtube;end";
+        return;
+      }
+
+      // PC → 普通にブラウザ
+      window.open("https://" + dest, "_blank");
     }
   </script>
 </body>
