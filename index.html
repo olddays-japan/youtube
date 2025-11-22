@@ -10,7 +10,7 @@
       margin: 0;
       padding: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
-      background-color: #FCEACB; /* ちょい昭和な紙色 */
+      background-color: #FCEACB;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -38,7 +38,7 @@
       text-decoration: none;
       border-radius: 999px;
       border: none;
-      background-color: #e26b2d; /* 昭和オレンジ */
+      background-color: #e26b2d;
       color: #fff5de;
       box-shadow: 0 3px 0 #b24d18;
       transition: transform 0.1s ease, box-shadow 0.1s ease;
@@ -56,7 +56,6 @@
       line-height: 1.6;
     }
 
-    /* コピー欄 */
     .copy-box {
       margin-top: 28px;
       background: #fff5de;
@@ -90,6 +89,27 @@
       transform: translateY(1px);
       box-shadow: 0 1px 0 #b24d18;
     }
+
+    /* ▼ カスタムトースト通知 */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #e26b2d;
+      color: #fff5de;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      box-shadow: 0 3px 0 #b24d18;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      z-index: 999;
+    }
+    .toast.show {
+      opacity: 1;
+    }
   </style>
 </head>
 
@@ -110,18 +130,25 @@
       アプリが開かない場合は、YouTubeで「olddays_japan」と検索してみてね。
     </p>
 
-    <!-- ▼ コピー欄 -->
     <div class="copy-box">
       <span class="copy-text" id="copyTarget">olddays_japan</span>
       <button class="copy-btn" onclick="copyText()">コピー</button>
     </div>
   </div>
 
+  <!-- ▼ トースト通知 -->
+  <div id="toast" class="toast">コピーしたよ！</div>
+
   <script>
     function copyText() {
       const text = document.getElementById('copyTarget').innerText;
       navigator.clipboard.writeText(text).then(() => {
-        alert("コピーしたよ！");
+        const toast = document.getElementById('toast');
+        toast.classList.add('show');
+
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 1500);
       });
     }
   </script>
